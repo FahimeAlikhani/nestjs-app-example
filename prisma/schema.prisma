@@ -1,0 +1,210 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Track_Type {
+  car
+  bicycle
+  walk
+  motorcycle
+}
+
+model User {
+  id                     Int                    @default(autoincrement()) @id   
+  post                   Post[]                 @relation("postUser")
+  comment                Comment[]              @relation("commenterUser")
+  story                  Story[]                @relation("StoryMaker")
+  seener                 Seener[]               @relation("userSeener")
+  friends                User[]                 @relation("friends")
+  friendsRelation        User[]                 @relation("friends")
+  tag                    Tag[]                  @relation("tagUser") 
+  followers              Follows[]              @relation("userFollower")
+  following              Follows[]              @relation("userFollowing")
+  directer               Direct[]               @relation("directerUser")
+  directed               Direct[]               @relation("directedUser")
+  contact                Contact[]              @relation("contactUser")
+  location               Location[]             @relation("locationUser")
+  payment                Payment[]              @relation("paymentUser")
+  track_address          Track_address[]        @relation("track_addressUser")
+  social                 Social[]               @relation("socialAddress")
+  first_name             String                 @db.VarChar(25) 
+  last_name              String                 @db.VarChar(25) 
+  picture_add            String                 @db.VarChar(150)
+  mobile_number          String                 @db.VarChar(11) @unique
+  user_name              String                 @unique
+  description            String                 @db.VarChar(200)
+  veryfication_code      String                 @db.VarChar(4)
+  location_country       String                 @db.VarChar(25)
+  location_city          String                 @db.VarChar(25)
+  ghost_status           Boolean   
+  rate                   Int
+  status                 Boolean                @default(false)
+  create_time            DateTime               @default(now())
+  update_time            DateTime               @default(now())
+
+  @@map("users")
+}
+
+model Social{
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("socialAddress",fields: [user_id], references: [id])
+  twitter                String
+  facebook               String
+  instagram              String
+  telegram               String
+  create_time            DateTime               @default(now())
+  update_time            DateTime               @default(now())
+}
+model Story {
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("StoryMaker",fields: [user_id], references: [id])
+  seener                 Seener[]               @relation("StorySeener" )
+  picture_add            String                 @db.VarChar(150)
+  video_add              String                 @db.VarChar(150)
+  create_date            DateTime               @default(now())
+  update_date            DateTime               @default(now())
+}
+
+model Seener {
+  id                     Int                    @default(autoincrement()) @id 
+  story_id               Int?
+  story                  Story?                 @relation("StorySeener",fields: [story_id], references: [id])  
+  user_id                Int
+  user                   User[]                 @relation("userSeener")                 
+  create_date            DateTime               @default(now())
+  update_date            DateTime               @default(now())
+}
+
+model Direct {
+  id                     Int                    @default(autoincrement()) @id 
+  directer_id             Int?
+  direcer                User?                  @relation("directerUser",fields: [directer_id ], references: [id])
+  directed_id             Int?
+  direced                User?                  @relation("directedUser",fields: [directed_id ], references: [id])
+  text                   String                 @db.VarChar(500)
+  picture_add            String                 @db.VarChar(150)
+  video_add              String                 @db.VarChar(150)
+  file_add               String                 @db.VarChar(150)
+  voice_add              String                 @db.VarChar(150)
+  audio_add              String                 @db.VarChar(150)
+  create_date            DateTime               @default(now())
+}
+
+model Payment {
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("paymentUser",fields: [user_id], references: [id])
+  amount                 Decimal                @db.Money  
+  tracking_code          String                 @db.VarChar(13)                 // کد رهگیری
+  payment_status         Boolean
+  create_date            DateTime               @default(now())
+}
+
+model Location {
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("locationUser",fields: [user_id], references: [id])
+  voice_id               Int?                     
+  voice                  Voice?                 @relation("voiceLocation",fields: [voice_id], references: [id])
+  location_add           String                 @db.VarChar(150)
+  text                   String                 @db.VarChar(500)
+  create_date            DateTime               @default(now())
+}
+
+model Voice {
+  id                     Int                    @default(autoincrement()) @id 
+  location               Location[]             @relation("voiceLocation" )
+  voice_add              String                 @db.VarChar(150)
+  create_date            DateTime               @default(now())
+}
+
+model Track_address {
+  id                     Int                   @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                 @relation("track_addressUser",fields: [user_id], references: [id])
+  start_time             DateTime
+  duration               Int
+  distance               Int
+  type                   Track_Type  
+  create_date            DateTime               @default(now())
+}
+
+model Follows {
+  follower_id            Int 
+  follower               User                  @relation("userFollower", fields: [follower_id], references: [id])
+  following_id           Int
+  following              User                  @relation("userFollowing", fields: [following_id], references: [id])
+  followedDate           DateTime               @default(now())
+  unfollowedDate         DateTime               @default(now())
+  
+  @@id([follower_id, following_id])
+}
+
+model Tag {
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("tagUser",fields: [user_id ], references: [id])
+  create_date            DateTime               @default(now())
+}
+
+model Contact {
+  id                     Int                    @default(autoincrement()) @id 
+  user_id                Int?
+  user                   User?                  @relation("contactUser",fields: [user_id], references: [id])
+  mobile_number          String                 @db.VarChar(11)
+  contact_friend_type    Boolean
+  blocked                Boolean
+}
+
+model Post {
+  id                     Int                    @default(autoincrement()) @id
+  user_id                Int?
+  user                   User?                  @relation("postUser",fields: [user_id], references: [id])
+  comment                Comment[]              @relation("postCommented")
+  send_time              Send_Time[]            @relation("sendTime")
+  report                 Reported_Post[]        @relation("reportedPost")
+  caption                String                 @db.VarChar(150)
+  text                   String                 @db.VarChar(500)
+  picture_add            String                 @db.VarChar(150)
+  video_add              String                 @db.VarChar(150)
+  location_country       String                 @db.VarChar(25)
+  location_city          String                 @db.VarChar(25)
+  rate                   Int
+  create_date            DateTime               @default(now())
+  update_date            DateTime               @default(now())
+}
+
+model Send_Time {
+  id                     Int                    @default(autoincrement()) @id
+  post_id                Int?
+  post                   Post?                  @relation("sendTime",fields: [post_id], references: [id])
+  create_date            DateTime               @default(now())
+}
+
+model Reported_Post {
+  id                     Int                    @default(autoincrement()) @id
+  status                 Boolean
+  post_id                Int?
+  post                   Post?                  @relation("reportedPost",fields: [post_id], references: [id])
+  create_date            DateTime               @default(now())
+}
+
+model Comment {
+  id                     Int                    @default(autoincrement()) @id
+  user_id                Int?
+  user                   User?                  @relation("commenterUser",fields: [user_id ], references: [id])
+  post_id                Int?
+  post                   Post?                  @relation("postCommented",fields: [post_id ], references: [id])   
+  text                   String                 @db.VarChar(500)
+  create_date            DateTime               @default(now())
+}

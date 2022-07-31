@@ -1,21 +1,32 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateSocialDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
   
+  @ApiProperty()
   @IsNotEmpty()
   user_id: number;
-
+  
+  @ApiProperty()
   twitter: string;
+
+  @ApiProperty()
   facebook: string;
+
+  @ApiProperty()
   instagram: string;
+
+  @ApiProperty()
   telegram: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_time:Date;
 
+  @ApiProperty()
   @IsNotEmpty()
   update_time:Date;
 }

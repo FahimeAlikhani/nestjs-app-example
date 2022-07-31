@@ -10,7 +10,12 @@ import {
 import { SendTimeService } from './send-time.service';
 import { Send_Time as SendTimeModel } from '@prisma/client';
 import { sendTimeData as CreateSendTimeDto } from '../dtos/CreateSendTimeDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('sendTime')
+@ApiHeader({
+  name: 'postsendTime',
+  description: 'all users post sendTime',
+})
 @Controller('sendTime')
 export class SendTimeController {
   constructor(private sendTimeService: SendTimeService) {}
@@ -26,6 +31,11 @@ export class SendTimeController {
   }
 
   @Post('/sendTime')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupSendTime(
     @Body()
     sendTimeData: CreateSendTimeDto,

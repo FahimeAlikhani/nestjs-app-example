@@ -10,7 +10,12 @@ import {
 import { SocialService } from './social.service';
 import { Social as SocialModel } from '@prisma/client';
 import { socialData as CreateSocialDto } from '../dtos/CreateSocialDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('social')
+@ApiHeader({
+  name: 'socialAddress',
+  description: 'all users social address',
+})
 @Controller('social')
 export class SocialController {
   constructor(private socialService: SocialService) {}
@@ -26,6 +31,11 @@ export class SocialController {
   }
 
   @Post('social')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupSocial(
     @Body()
     socialData: CreateSocialDto,

@@ -10,7 +10,12 @@ import {
 import { StoryService } from './story.service';
 import { Story as StoryModel } from '@prisma/client';
 import { storyData as CreateStoryDto } from '../dtos/CreateStoryDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('story')
+@ApiHeader({
+  name: 'story',
+  description: 'all users story',
+})
 @Controller('story')
 export class StoryController {
   constructor(private storyService: StoryService) {}
@@ -28,6 +33,11 @@ export class StoryController {
   }
 
   @Post('/story')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupStory(
     @Body()
     storyData: CreateStoryDto,

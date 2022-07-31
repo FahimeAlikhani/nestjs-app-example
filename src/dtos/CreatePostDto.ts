@@ -1,37 +1,48 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreatePostDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   user_id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   caption: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   text: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   picture_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   video_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   location_country: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   location_city: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   rate: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 
+  @ApiProperty()
   @IsNotEmpty()
   update_date: Date;
 }

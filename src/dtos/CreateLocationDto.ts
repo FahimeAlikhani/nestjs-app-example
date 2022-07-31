@@ -1,20 +1,25 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateLocationDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   user_id: number;
   voice_id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   location_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   text: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 }

@@ -10,8 +10,13 @@ import {
 import { UserService } from './user.service';
 import { User as UserModel } from '@prisma/client';
 import { userData as CreateUserDto } from '../dtos/CreateUserDto';
-
-@Controller('user')
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('user')
+@ApiHeader({
+  name: 'userProfile',
+  description: 'all users profile',
+})
+@Controller('/user')
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -20,12 +25,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('/user :id')
+  @Get(':id')
   async getUserById(@Param('id') id: number): Promise<UserModel> {
     return this.userService.findById(id);
   }
 
-  @Get('/user :friend_id')
+  @Get(':friend_id')
   async getFriends(
     @Param('id') userId: number,
     friendId: number,
@@ -33,7 +38,12 @@ export class UserController {
     return this.userService.addFriend(userId, friendId);
   }
 
-  @Post('user')
+  @Post('')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupUser(
     @Body()
     userData: CreateUserDto,
@@ -41,7 +51,7 @@ export class UserController {
     return this.userService.createUser(userData);
   }
 
-  @Put(' /user :id')
+  @Put(':id')
   async updateUser(@Param('id') id: string): Promise<UserModel> {
     return this.userService.updateUser({
       where: { id: Number(id) },
@@ -49,7 +59,7 @@ export class UserController {
     });
   }
 
-  @Delete('user/:id')
+  @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<UserModel> {
     return this.userService.deleteUser({ id: Number(id) });
   }

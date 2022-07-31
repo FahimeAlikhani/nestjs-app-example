@@ -10,7 +10,12 @@ import {
 import { TagService } from './tag.service';
 import { Tag as TagModel } from '@prisma/client';
 import { tagData as CreateTagDto } from '../dtos/CreateTagDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('tag')
+@ApiHeader({
+  name: 'tag',
+  description: 'all users posts tags',
+})
 @Controller('tag')
 export class TagController {
   constructor(private tagService: TagService) {}
@@ -26,6 +31,11 @@ export class TagController {
   }
 
   @Post('/tag')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupTag(
     @Body()
     tagData: CreateTagDto,

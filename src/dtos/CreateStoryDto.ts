@@ -1,22 +1,28 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsNumber } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateStoryDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
   
+  @ApiProperty()
   @IsNumber()
   user_id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   picture_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   video_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 
+  @ApiProperty()
   @IsNotEmpty()
   update_date: Date;
 }

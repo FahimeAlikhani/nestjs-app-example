@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateVoiceDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   voice_add: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 }

@@ -10,7 +10,12 @@ import {
 import { CommentService } from './comment.service';
 import { Comment as CommentModel } from '@prisma/client';
 import { commentData as CreateCommentDto } from '../dtos/CreateCommentDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('comment')
+@ApiHeader({
+  name: 'comment',
+  description: 'all user comments',
+})
 @Controller('comment')
 export class CommentController {
   constructor(private commentService: CommentService) {}

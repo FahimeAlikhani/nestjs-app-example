@@ -1,22 +1,28 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsNumber } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreatePaymentDto {
+  @ApiProperty()
   @IsNotEmpty()
   id: number;
 
+  @ApiProperty()
   @IsNumber()
   user_id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   amount: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   tracking_code: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   payment_status: boolean;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 }

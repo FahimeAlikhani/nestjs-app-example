@@ -10,7 +10,12 @@ import {
 import { SeenerService } from './seener.service';
 import { Seener as SeenerModel } from '@prisma/client';
 import { seenerData as CreateSeenerDto } from '../dtos/CreateSeenerDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('seener')
+@ApiHeader({
+  name: 'postSeener',
+  description: 'all users post Seener',
+})
 @Controller('seener')
 export class SeenerController {
   constructor(private seenerService: SeenerService) {}
@@ -26,6 +31,11 @@ export class SeenerController {
   }
 
   @Post('/seener')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupSeener(
     @Body()
     seenerData: CreateSeenerDto,

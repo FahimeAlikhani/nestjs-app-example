@@ -10,7 +10,12 @@ import {
 import { ContactService } from './contact.service';
 import { Contact as ContactModel } from '@prisma/client';
 import { contactData as CreateContactDto } from '../dtos/CreateContactDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('contact')
+@ApiHeader({
+  name: 'contact',
+  description: 'all user contacts',
+})
 @Controller('contact')
 export class ContactController {
   constructor(private contactService: ContactService) {}

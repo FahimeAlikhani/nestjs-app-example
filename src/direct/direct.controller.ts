@@ -10,7 +10,12 @@ import {
 import { DirectService } from './direct.service';
 import { Direct as DirectModel } from '@prisma/client';
 import { directData as CreateDirectDto } from '../dtos/CreateDirectDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('direct')
+@ApiHeader({
+  name: 'direct',
+  description: 'all user direct messages',
+})
 @Controller('direct')
 export class DirectController {
   constructor(private directService: DirectService) {}

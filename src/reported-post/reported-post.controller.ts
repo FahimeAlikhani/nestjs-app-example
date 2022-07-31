@@ -10,7 +10,12 @@ import {
 import { ReportedPostService } from './reported-post.service';
 import { Reported_Post as ReportedPostModel } from '@prisma/client';
 import { reportedPostData as CreateReportedPostDto } from '../dtos/CreateReportedPostDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('reportedPost')
+@ApiHeader({
+  name: 'reportedPost',
+  description: 'all users reportedPost',
+})
 @Controller('reportedPost')
 export class ReportedPostController {
   constructor(private reportedPostService: ReportedPostService) {}

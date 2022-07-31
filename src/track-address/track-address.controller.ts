@@ -10,7 +10,12 @@ import {
 import { TrackAddressService } from './track-address.service';
 import { Track_address as TrackAddressModel } from '@prisma/client';
 import { trackAddressData as CreateTrackAddressDto } from '../dtos/CreateTrackAddressDto';
-
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('trackAddress')
+@ApiHeader({
+  name: 'trackAddress',
+  description: 'all users trackAddress',
+})
 @Controller('trackAddress')
 export class TrackAddressController {
   constructor(private trackAddressService: TrackAddressService) {}
@@ -28,6 +33,11 @@ export class TrackAddressController {
   }
 
   @Post('/trackAddress')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupTrackAddress(
     @Body()
     trackAddressData: CreateTrackAddressDto,

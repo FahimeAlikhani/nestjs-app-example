@@ -1,25 +1,32 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsNumber } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateTrackAddressDto {
+  @ApiProperty()
   @IsNumber()
   id: number;
 
+  @ApiProperty()
   @IsNumber()
   user_id: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   start_time: Date;
 
+  @ApiProperty()
   @IsNotEmpty()
   duration: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   distance: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   type: Track_Type;
 
+  @ApiProperty()
   @IsNotEmpty()
   create_date: Date;
 }

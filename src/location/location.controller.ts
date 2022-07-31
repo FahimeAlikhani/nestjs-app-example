@@ -10,7 +10,12 @@ import {
 import { LocationService } from './location.service';
 import { Location as LocationModel } from '@prisma/client';
 import { locationData as CreateLocationDto } from '../dtos/CreateLocationDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('location')
+@ApiHeader({
+  name: 'location',
+  description: 'all users pictures location',
+})
 @Controller('location')
 export class LocationController {
   constructor(private locationService: LocationService) {}

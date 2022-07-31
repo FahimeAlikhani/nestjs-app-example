@@ -10,7 +10,12 @@ import {
 import { FollowsService } from './follows.service';
 import { Follows as FollowsModel } from '@prisma/client';
 import { followsData as CreateFollowsDto } from '../dtos/CreateFollowsDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('follows')
+@ApiHeader({
+  name: 'follower & foollowing',
+  description: 'all users followers & foollowings',
+})
 @Controller('follows')
 export class FollowsController {
   constructor(private followsService: FollowsService) {}

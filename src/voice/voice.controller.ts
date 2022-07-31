@@ -10,8 +10,13 @@ import {
 import { VoiceService } from './voice.service';
 import { Voice as VoiceModel } from '@prisma/client';
 import { voiceData as CreateVoiceDto } from '../dtos/CreateVoiceDto';
-
-@Controller('voice')
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('voice')
+@ApiHeader({
+  name: 'userVoice',
+  description: 'all users voice',
+})
+@Controller('/voice')
 export class VoiceController {
   constructor(private voiceService: VoiceService) {}
 
@@ -20,12 +25,17 @@ export class VoiceController {
     return this.voiceService.findAll();
   }
 
-  @Get('/voice :id')
+  @Get(':id')
   async getVoiceById(@Param('id') id: number): Promise<VoiceModel> {
     return this.voiceService.findById(id);
   }
 
-  @Post('voice')
+  @Post('')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signupVoice(
     @Body()
     voiceData: CreateVoiceDto,
@@ -33,7 +43,7 @@ export class VoiceController {
     return this.voiceService.createVoice(voiceData);
   }
 
-  @Put(' /voice :id')
+  @Put(':id')
   async updateVoice(@Param('id') id: string): Promise<VoiceModel> {
     return this.voiceService.updateVoice({
       where: { id: Number(id) },
@@ -41,7 +51,7 @@ export class VoiceController {
     });
   }
 
-  @Delete('voice/:id')
+  @Delete(':id')
   async deleteVoice(@Param('id') id: string): Promise<VoiceModel> {
     return this.voiceService.deleteVoice({ id: Number(id) });
   }

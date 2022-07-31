@@ -10,7 +10,12 @@ import {
 import { PaymentService } from './payment.service';
 import { Payment as PaymentModel } from '@prisma/client';
 import { paymentData as CreatePaymentDto } from '../dtos/CreatePaymentDto';
-
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
+@ApiTags('payment')
+@ApiHeader({
+  name: 'payment',
+  description: 'all users payments',
+})
 @Controller('payment')
 export class PaymentController {
   constructor(private paymentService: PaymentService) {}
